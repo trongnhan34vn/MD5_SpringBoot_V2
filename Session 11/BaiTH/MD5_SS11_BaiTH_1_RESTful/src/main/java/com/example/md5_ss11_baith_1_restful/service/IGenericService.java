@@ -1,0 +1,14 @@
+package com.example.md5_ss11_baith_1_restful.service;
+
+import java.util.Optional;
+
+public interface IGenericService<T> {
+    Iterable<T> findAll();
+
+    Optional<T> findById(Long id);
+
+    T save(T t);
+
+    void remove(Long id);
+
+}

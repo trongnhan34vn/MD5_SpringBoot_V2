@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.css" />
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.js"></script>
+    <script type="text/javascript"></script>
+</head>
+
+<body>
+    <div class="form-new-blog">
+        <h1>New Blog</h1>
+        <div class="form">
+            <input type="hidden" id="id">
+            <div class="item">
+                <p>Title</p>
+                <input type="text" id="title">
+            </div>
+            <div class="item">
+                <p>Category</p>
+                <select name="" id="category">
+                    <option value="">...</option>
+                </select>
+            </div>
+            <div class="item">
+                <p>Content</p>
+                <input type="text" id="content">
+            </div>
+            <div class="item">
+                <button onclick="createBlog()">Create</button>
+            </div>
+        </div>
+    </div>
+    <div class="list-blog">
+        <h1>Blogs</h1>
+        <input type="text" oninput="findBlogsByName()" id="search">
+        <table border="1" id="blog-table">
+            <tr>
+                <td>Category: </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Title: </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Content: </td>
+                <td></td>
+            </tr>
+    </div>
+    </table>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            getAllBlogs();
+            getAllCatalogs();
+        })
+
+        // $("#test").on('input', ()=> {
+        //     alert("a");
+        // })
+
+        var searchResults;
+
+        function findBlogsByName() {
+            var search = $('#search').val();
+            if (search.trim() !== "") {
+                $.ajax({
+                    url: `http://localhost:8080/api/blog/search/${search}`,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        var blogTable = $('#blog-table');
+                        blogTable.empty();
+                        show(data, blogTable);
+                    }
+                })
+            } else {
+                getAllBlogs()
+            }
+        }
+
+        function show(data, table) {
+            $(data).each(function (index, element) {
+                table.append(`<tr>
+            <td># ${index + 1}<td>
+        </tr>
+        <tr>
+            <td>Category: </td>
+            <td>${element.category.categoryName}</td>
+        </tr>
+        <tr>
+            <td>Title: </td>
+            <td>${element.title}</td>
+        </tr>
+        <tr>
+            <td>Content: </td>
+            <td>${element.content}</td>
+        </tr>`)
+            })
+        }
+
+        function getAllBlogs() {
+            $.ajax({
+                url: "http://localhost:8080/api/blog",
+                method: "GET",
+                dataType: "json",
+                success: function (data) {
+                    var blogTable = $('#blog-table');
+                    blogTable.empty();
+                    show(data, blogTable);
+                    console.log("abc");
+                }
+            })
+        }
+
+        var categories = [];
+
+        function getAllCatalogs() {
+            $.ajax({
+                url: "http://localhost:8080/api/category",
+                method: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    var categoryOptions = $("#category");
+                    categoryOptions.empty();
+                    $(data).each(function (index, element) {
+                        categoryOptions.append(`<option value="${element.categoryId}">${element.categoryName}</option>`)
+                    })
+                    categories = data;
+                }
+            })
+        }
+
+        function createBlog() {
+            var blog = {};
+            var id = + $('#category').val();
+            var selectCat = {};
+            categories.forEach(category => {
+                if (category.categoryId === id) {
+                    selectCat = category;
+                }
+            });
+            blog.category = selectCat;
+            blog.title = $('#title').val();
+            blog.content = $('#content').val();
+            var blogObj = JSON.stringify(blog);
+            $.ajax({
+                url: "http://localhost:8080/api/blog",
+                method: "POST",
+                data: blogObj,
+                contentType: 'application/json; charset=utf-8',
+                success: function () {
+                    alert("Blog created successfully!");
+                    getAllBlogs();
+                    reset();
+                }
+            })
+        }
+
+        function reset() {
+            $('#title').val('');
+            $('#content').val('');
+            $('#id').val('');
+        }
+
+    </script>
+</body>
+
+</html>

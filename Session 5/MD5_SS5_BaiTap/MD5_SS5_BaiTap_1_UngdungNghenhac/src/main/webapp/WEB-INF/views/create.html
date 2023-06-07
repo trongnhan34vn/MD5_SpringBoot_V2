@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Form</title>
+</head>
+<body>
+<form action="/create" method="post" th:object="${audio}" enctype="multipart/form-data">
+  <table border="1">
+    <tr>
+      <td>Name</td>
+      <td><input type="text" th:field="*{audioName}"></td>
+    </tr>
+    <tr>
+      <td>Artist</td>
+      <td><input type="text" th:field="*{artist}"></td>
+    </tr>
+    <tr>
+      <td>Category</td>
+      <td><input type="text" th:field="*{category}"></td>
+    </tr>
+    <tr>
+      <td>File</td>
+      <td><input type="file" name="file"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="submit" value="submit"></td>
+    </tr>
+  </table>
+</form>
+
+</body>
+</html>

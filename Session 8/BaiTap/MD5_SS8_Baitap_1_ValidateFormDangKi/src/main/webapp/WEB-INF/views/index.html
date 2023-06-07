@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<form th:action="@{/register}" method="post" th:object="${user}">
+    <div>
+        <p>First Name:</p>
+        <input type="text" th:field="*{firstName}">
+        <span style="color: red" th:if="${#fields.hasErrors('firstName')}">First Name is not invalid</span>
+    </div>
+    <div>
+        <p>Last Name:</p>
+        <input type="text" th:field="*{lastName}">
+        <span style="color: red" th:if="${#fields.hasErrors('lastName')}">Last Name is not invalid</span>
+    </div>
+    <div>
+        <p>Phone:</p>
+        <input type="text" th:field="*{phone}">
+        <span style="color: red" th:if="${#fields.hasErrors('phone')}">Phone is not invalid</span>
+    </div>
+    <div>
+        <p>Age:</p>
+        <input type="number" th:field="*{age}">
+        <span style="color: red" th:if="${#fields.hasErrors('age')}">Age is not invalid</span>
+    </div>
+    <div>
+        <p>Email:</p>
+        <input type="email" th:field="*{email}">
+        <span style="color: red" th:if="${#fields.hasErrors('email')}">Email is not invalid</span>
+    </div>
+    <div>
+        <button type="submit">Submit</button>
+    </div>
+</form>
+</body>
+</html>

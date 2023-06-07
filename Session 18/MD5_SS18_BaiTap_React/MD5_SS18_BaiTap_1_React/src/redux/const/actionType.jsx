@@ -1,0 +1,11 @@
+
+// USER
+export const REGISTER = "REGISTER";
+export const LOGIN = "LOGIN";
+export const GET_LOGIN_DETAILS = "GET_LOGIN_DETAILS";
+
+
+
+//LOCATION
+export const REQUEST_FIND_LOCATION = "REQUEST_FIND_LOCATION";
+export const GET_ALL_LOCATION = "GET_ALL_LOCATION";

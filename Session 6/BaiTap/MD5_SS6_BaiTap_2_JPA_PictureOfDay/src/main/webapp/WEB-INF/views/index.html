@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Image</title>
+</head>
+<body>
+<img id="img-of-the-day">
+<form action="/comment" method="post" th:object="${comment}">
+  <div class="form-item">
+    <select name="" th:field="*{point}">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+  </div>
+  <div>
+    <p>Author: </p>
+    <input type="text" th:field="*{author}">
+  </div>
+  <div>
+    <p>Feedback: </p>
+    <textarea name="" id="" cols="30" rows="10" th:field="*{message}"></textarea>
+  </div>
+  <div>
+    <button type="submit">Submit</button>
+  </div>
+</form>
+<ul>
+  <th:block th:each="feed : ${listFeed}">
+    <li>
+      <p th:text="${feed.getPoint()}"></p>
+      <p th:text="${feed.getMessage()}"></p>
+      <p th:text="${feed.getAmountLike()()}"></p>
+      <a th:href="@{/like(id=${feed.getId()})}">like</a>
+    </li>
+  </th:block>
+</ul>
+<script>
+  let query = 'https://api.nasa.gov/planetary/apod?api_key=lGg6Boh2zjLu5YcRPqvQ4RI6iHfwF9jTQJm9MEJz'
+  ;
+  let request = new XMLHttpRequest();
+  request.open('GET', query);
+  request.onload = function() {
+    if (request.status === 200) {
+      let response = JSON.parse(request.responseText);
+      document.getElementById('img-of-the-day').setAttribute('src', response.url);
+    }
+  };
+  request.send();
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<h1><a href="/blog">To Blog</a></h1>
+<h1><a href="/category">To Category</a></h1>
+<form th:action="@{'/page/' + ${currentPage}}">
+    <select name="sortBy" id="">
+        <option value="title-asc">title-asc</option>
+        <option value="title-desc">title-desc</option>
+    </select>
+    <button type="submit">Order</button>
+</form>
+<table border="1">
+    <th:block th:each="blog : ${listBlog}">
+        <tr>
+            <td>
+                <p>Category: <span th:text="${blog.getCategory().categoryName}"></span></p>
+            </td>
+            <td>
+                <p>Title: <span th:text="${blog.title}"></span></p>
+            </td>
+            <td th:text="${blog.getContent()}">
+                <!--            title-->
+            </td>
+            <td th:text="${blog.getContent()}">
+                <!--            content-->
+            </td>
+        </tr>
+    </th:block>
+</table>
+<div>
+    <div class="pagination">
+        <a th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage - 1}}">&laquo;</a>
+        <span th:unless="${currentPage > 1}">&laquo;</span>
+        <th:block th:each="page : ${totalPages}">
+            <a th:href="@{'/page/' + ${pageStat.count}}" th:text="${pageStat.count}">1</a>
+        </th:block>
+        <a th:if="${currentPage < totalPages.length}" th:href="@{'/page/' + ${currentPage + 1}}">&raquo;</a>
+        <span th:unless="${currentPage < totalPages.length}">&raquo;</span>
+    </div>
+</div>
+</body>
+</html>

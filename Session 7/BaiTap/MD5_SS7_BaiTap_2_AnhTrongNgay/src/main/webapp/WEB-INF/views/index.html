@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ảnh đẹp Hà Nội đêm trở gió</title>
+</head>
+<body>
+<img style="width: 200px; height: 200px" id="img-of-the-day">
+<form action="/create" method="post" th:object="${feedback}">
+  <div class="item">
+    <input type="number" min="1" max="5" th:field="*{point}">
+  </div>
+  <div class="item">
+    <p>Author</p>
+    <input type="text" th:field="*{author}">
+  </div>
+  <div class="item">
+    <p>Feedback</p>
+    <textarea name="" id="" cols="30" rows="10" th:field="*{content}"></textarea>
+  </div>
+  <button type="submit">Comment</button>
+</form>
+
+<table>
+    <th:block th:each="feed : ${feedbackList}">
+        <tr>
+            <td th:text="${feed.point}">
+                <!--      Point-->
+            </td>
+            <td th:text="${feed.content}">
+                <!--      Comment-->
+            </td>
+            <td th:text="${feed.likeAmount}">
+                <!--      Like-->
+            </td>
+            <td><button><a th:href="@{/like(id=${feed.getId()})}">like</a></button></td>
+        </tr>
+    </th:block>
+</table>
+<div>
+    <div class="pagination">
+        <a th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage - 1}}">&laquo;</a>
+        <span th:unless="${currentPage > 1}">&laquo;</span>
+        <th:block th:each="page : ${totalPages}">
+            <a th:href="@{'/page/' + ${pageStat.count}}" th:text="${pageStat.count}">1</a>
+        </th:block>
+        <a th:if="${currentPage < totalPages.length}" th:href="@{'/page/' + ${currentPage + 1}}">&raquo;</a>
+        <span th:unless="${currentPage < totalPages.length}">&raquo;</span>
+    </div>
+</div>
+
+<script>
+  let query = 'https://api.nasa.gov/planetary/apod?api_key=lGg6Boh2zjLu5YcRPqvQ4RI6iHfwF9jTQJm9MEJz';
+  let request = new XMLHttpRequest();
+  request.open('GET', query);
+  request.onload = function() {
+    if (request.status === 200) {
+      let response = JSON.parse(request.responseText);
+      document.getElementById('img-of-the-day').setAttribute('src', response.url);
+    }
+  };
+  request.send();
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Form</title>
+</head>
+<body>
+<h3><a href="/">Back to Home</a></h3>
+<h1>Create Form</h1>
+<th:block th:if="${message != null}" >
+  <p style="color:green;" th:text="${message}"></p>
+</th:block>
+<form action="/update" method="post" th:object="${blog}">
+  <table>
+    <tr>
+      <td>Title</td>
+      <td><input type="text" th:field="*{title}"></td>
+      <td><input type="hidden" th:field="*{id}"></td>
+    </tr>
+    <tr>
+      <td>Content</td>
+      <td><textarea name="" id="" cols="30" rows="10" th:field="*{content}"></textarea></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><button type="submit">Submit</button></td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

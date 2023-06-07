@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+</head>
+<body>
+<h1>Blog</h1>
+<h3><a href="/create">Create New Product</a></h3>
+<h3>Danh sách bài viết</h3>
+<table>
+    <th:block th:each="blog : ${listBlog}">
+        <tr>
+            <!--    title-->
+            <td><h3 th:text="${blog.title}"></h3></td>
+        </tr>
+        <tr>
+            <!--    content-->
+            <td th:text="${blog.content}"></td>
+        </tr>
+        <tr>
+            <td>
+                <button><a href="">Detail</a></button>
+                <button><a th:href="@{/edit(id=${blog.getId()})}">Update</a></button>
+                <a th:href="@{/delete(id=${blog.getId()})}">Delete</a>
+            </td>
+        </tr>
+    </th:block>
+</table>
+</body>
+</html>

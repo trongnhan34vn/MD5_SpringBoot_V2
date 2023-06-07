@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Form</title>
+</head>
+<body>
+<h3><a href="/">Back</a></h3>
+<form action="/update" method="post" th:object="${audio}">
+  <table width="100%" border="1">
+    <thead>
+    <tr>
+      <td>ID</td>
+      <td>Name</td>
+      <td>Artist</td>
+      <td>URL</td>
+      <td>Action</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td><input readonly th:field="*{audioId}" type="text"></td>
+      <td><input th:field="*{audioName}" type="text"></td>
+      <td><input th:field="*{artist}" type="text"></td>
+      <td><input type="text" th:field="*{category}"></td>
+      <td>
+        <audio th:src="@{'/audio/' + ${audio.getUrl()}}" controls></audio>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="submit" value="submit"></td>
+    </tr>
+    </tbody>
+  </table>
+</form>
+
+</body>
+</html>
